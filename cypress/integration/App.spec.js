@@ -9,6 +9,7 @@ describe("Calculator", () => {
   })
 
   it('should update total when multiple buttons are pressed', () => {
+    // enter all possible single digits at least once
     cy.get('#number1').click();
     cy.get('#number2').click();
     cy.get('#number3').click();
@@ -45,7 +46,7 @@ describe("Calculator", () => {
     cy.get('.display').should('contain', '105');
   });
 
-  it('it should be able to display negative numbers', () => {
+  it('should be able to display negative numbers', () => {
     cy.get('#number5').click();
     cy.get('#operator_subtract').click();
     cy.get('#number9').click();
@@ -65,6 +66,7 @@ describe("Calculator", () => {
   });
 
   it('should handle very large numbers', () => {
+    // 1 followed by ten 0's
     cy.get('#number1').click();
     for(let i = 0; i<10; i++) {
       cy.get('#number0').click();
@@ -72,12 +74,13 @@ describe("Calculator", () => {
 
     cy.get('#operator_multiply').click();
     
+    // 1 followed by ten 0's
     cy.get('#number1').click();
     for(let i = 0; i<10; i++) {
       cy.get('#number0').click();
     };
 
-    // handles correctly but display rolls off the end of the screen
+    // handles calculation correctly but display rolls off the end of display
     cy.get('#operator_equals').click();
     cy.get('.display').should('contain', '100000000000000000000');
   });
@@ -89,7 +92,19 @@ describe("Calculator", () => {
     cy.get('#number0').click();
     cy.get('#operator_equals').click();
 
-    //currently displays infinity
-    cy.get('.display').should('contain', 'Error: Cannot divide by zero');
+    //code rewritten to pass test below. This test now fails!
+    cy.get('.display').should('contain', 'Infinity');
   });
+
+  it('should display "can\'t divide by zero" error msg', () => {
+    // a better response would be an error msg that divide by zero isn't possible
+    cy.get('#number1').click();
+    cy.get('#number0').click();
+    cy.get('#operator_divide').click();
+    cy.get('#number0').click();
+    cy.get('#operator_equals').click();
+
+    //currently displays infinity
+    cy.get('.display').should('contain', 'Error: Can\'t divide by zero!');
+  })
 })

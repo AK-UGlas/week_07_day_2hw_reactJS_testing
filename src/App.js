@@ -9,14 +9,14 @@ function App() {
   const [previousOperator, setPreviousOperator] = useState(null); 
   const [newTotal, setNewTotal] = useState(true); 
 
-  const numberClick =  (number) => {
-    if ( runningTotal === 0 || newTotal){
+  const numberClick = (number) => {
+    if ( runningTotal === 0 || newTotal) {
       setRunningTotal("");
       setNewTotal(false);
-    }
+    };
 
     setRunningTotal(parseFloat("" + runningTotal + number));
-  }
+  };
 
   const clearClick = () => {
     if (runningTotal === 0) {
@@ -27,8 +27,8 @@ function App() {
   }
 
   const operatorClick = (operator) => {
-    // if there was a previous operator recorded as having been clicked, perform
-      // the operation for the previous operator
+    // if there was a previous operator recorded as having been clicked, 
+    // perform the operation for the previous operator
       if (previousTotal && previousOperator) {
         switch (previousOperator) {
           case "+":
@@ -46,17 +46,16 @@ function App() {
         }
       }
 
-      // if the 'equals' button was clicked, clear the previous operator, otherwise
-      // record what the previous operator was
+      // if the 'equals' button was clicked, clear the previous operator,
+      // otherwise record what the previous operator was
       if (operator === "=") {
         setPreviousOperator(null);
       } else {
         setPreviousOperator(operator);
         setRunningTotal("");
-
       }
-      // replace the previous total with the current running total and flag that a
-      // new total has been calculated
+      // replace the previous total with the current running total and 
+      // flag that a new total has been calculated
 
       setPreviousTotal(runningTotal);
       setNewTotal(true);
@@ -75,21 +74,28 @@ function App() {
   }
 
   const divide = (number) => {
-    setRunningTotal(parseFloat(previousTotal) / parseFloat(number));
+    if(number) {
+      setRunningTotal(parseFloat(previousTotal) / parseFloat(number));
+    } else {
+      setRunningTotal("Error: Can't divide by zero!");
+    }
+    
   }
 
 
   return (
     <div className="container">
-    <div className="calculator">
-      <div data-testid="running-total" className="display">{ runningTotal }</div>
-      <Calculator 
-      handleNumber={numberClick} 
-      handleOperator={operatorClick} 
-      handleClear={clearClick}
-      />
+      <div className="calculator">
+        <div data-testid="running-total" className="display">
+          { runningTotal }
+        </div>
+        <Calculator 
+        handleNumber={numberClick} 
+        handleOperator={operatorClick} 
+        handleClear={clearClick}
+        />
+      </div>
     </div>
-  </div>
   );
 }
 

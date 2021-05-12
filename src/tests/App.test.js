@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react';
 import App from '../App';
 
 describe('Calculator', () => {
-  let container;
+  let container = null;
   beforeEach(() => {
     container = render(<App/>)
   });
@@ -21,6 +21,7 @@ describe('Calculator', () => {
     const eql = container.getByTestId('equals');
     const runningTotal = container.getByTestId('running-total');
 
+    // pressing 1 + 4 =
     fireEvent.click(btn1);
     fireEvent.click(addbtn);
     fireEvent.click(btn4);
@@ -36,6 +37,7 @@ describe('Calculator', () => {
     const eql = container.getByTestId('equals');
     const runningTotal = container.getByTestId('running-total');
 
+    //press "7 - 4 = "
     fireEvent.click(btn7);
     fireEvent.click(subtractbtn);
     fireEvent.click(btn4);
@@ -51,6 +53,7 @@ describe('Calculator', () => {
     const eql = container.getByTestId('equals');
     const runningTotal = container.getByTestId('running-total');
 
+    //press "3 x 5 = "
     fireEvent.click(btn3);
     fireEvent.click(multbtn);
     fireEvent.click(btn5);
@@ -67,6 +70,7 @@ describe('Calculator', () => {
       const eql = container.getByTestId('equals');
       const runningTotal = container.getByTestId('running-total');
   
+      // press "2 1 / 7 = "
       fireEvent.click(btn2);
       fireEvent.click(btn1);
       fireEvent.click(dividebtn);
@@ -82,6 +86,8 @@ describe('Calculator', () => {
       const btn7 = container.getByTestId('number7');
       const btn3 = container.getByTestId('number3');
       const runningTotal = container.getByTestId('running-total');
+
+      // press " 2 1 7 3 "
       fireEvent.click(btn2);
       fireEvent.click(btn1);
       fireEvent.click(btn7);
@@ -99,7 +105,9 @@ describe('Calculator', () => {
       const multbtn = container.getByTestId('multiply');
       const runningTotal = container.getByTestId('running-total');
       const eql = container.getByTestId('equals');
-      
+
+      // press "2 x 5 = x 7 = x 3"
+      // trying "2 x 5 x 7 x 3 =" fails, returns 21 (the result of the last 2 items entered into the calculation)"
       fireEvent.click(btn2);
       fireEvent.click(multbtn);
       fireEvent.click(btn5);
@@ -123,6 +131,7 @@ describe('Calculator', () => {
       const eql = container.getByTestId('equals');
       const clear = container.getByTestId('clear');
 
+      // press "2 x 5 C 7 =" should replace 5 with 7 for "2 x 7 ="
       fireEvent.click(btn2);
       fireEvent.click(multbtn);
       fireEvent.click(btn5);
@@ -132,5 +141,7 @@ describe('Calculator', () => {
 
       expect(runningTotal).toHaveTextContent('14');
   });
+
+
 });
 
